@@ -1,3 +1,16 @@
-TITLE	FIRST_NAME	LAST_NAME	AGE	NATIONALITY	REGISTRATION_STATUS	COMLETED_COURSES	SEMESTERS
-mr.	kundan	thapa	28	nepali	registered	2	1
-mr.	kundan	thapa	28	nepali	registered	2	1
+TITLE,FIRST_NAME,LAST_NAME,AGE,NATIONALITY,REGISTRATION_STATUS,COMLETED_COURSES,SEMESTERS
+
+Mr.,Kundan,Thapa,29,Nepal,Registered,3,4
+
+Mr.,Ram,Thapa,30,Nepal,Registered,2,4
+
+Ms.,SIta,Thapa,24,Nepal,Registered,6,4
+
+Ms.,John,Thapa,24,Singapore,Registered,8,4
+
+Ms.,Arya,Stark,20,Singapore,Registered,0,0
+
+Ms.,Hari,Shrestha,19,Singapore,Registered,4,1
+
+Ms.,Alina,Shrestha,18,Nepal,Registered,8,2
+
