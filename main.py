@@ -2,6 +2,12 @@ import tkinter
 from tkinter import ttk
 from tkinter import messagebox
 
+# Additional imports
+from utils import insert_into_table
+import csv
+import os
+# csv file
+filename = "final_project.csv"
 
 def submit_data():
     status = terms_check_var.get()
@@ -15,13 +21,48 @@ def submit_data():
         num_courses = num_courses_spinbox.get()
         num_semesters = num_semesters_spinbox.get()
         registration_status = reg_status_var.get()
-        print(first_name)
+        
+        # Storing the user entried values from the GUI in a variable.
+        project_data = [{
+            "TITLE": title,
+            "FIRST_NAME": first_name,
+            "LAST_NAME": last_name,
+            "AGE": age,
+            "NATIONALITY": nationality,
+            "REGISTRATION_STATUS": registration_status,
+            "COMLETED_COURSES": num_courses,
+            "SEMESTERS": num_semesters
+        }]
+             
+        # Creating and writing information in csv file on condtion, the file has not been created yet.
+        if not os.path.exists(filename):
+            with open(filename, "w+") as cw:
+                csv_writer = csv.DictWriter(cw, fieldnames=project_data[0].keys(), delimiter=",")
+                csv_writer.writeheader()
+                csv_writer.writerow(project_data[0])
+        # Appending subsequent values on condition, the file has already been made.         
+        else:
+            with open(filename, "a+") as ap:
+                csv_writer = csv.DictWriter(ap, fieldnames=project_data[0].keys(), delimiter=",")
+                csv_writer.writerow(project_data[0])
+                           
+        
+        # Reading the created/appended 'csv' file so that it can be uploaded to table in database 
+        # created in postgres.
+
+        # Use of utils.py module for inserting data in table and establishing connection with the to postgres.
+        with open(filename, "r") as cr:
+            csv_reader = csv.DictReader(cr) 
+            for each_line in csv_reader:
+                insert_into_table(each_line)
+            print("CSV has been loaded to table !!")    
+    
     else:
         tkinter.messagebox.showwarning(title="Error", message="You have not accepted the terms and conditions")
 
 
 window = tkinter.Tk()
-window.title("Dta Entry Form")
+window.title("Data Entry Form")
 
 frame = tkinter.Frame(window)
 frame.pack()
@@ -61,7 +102,7 @@ for widget in user_info_frame.winfo_children():
 
 
 # Saving Course Info
-courses_frame = tkinter.LabelFrame(frame)
+courses_frame = tkinter.LabelFrame(frame, text = "Registration Information")
 courses_frame.grid(row=1, column=0, sticky="news", padx=20, pady=10)
 registered_label = tkinter.Label(courses_frame, text="Registration Status")
 reg_status_var = tkinter.StringVar(value="Not Registered")
